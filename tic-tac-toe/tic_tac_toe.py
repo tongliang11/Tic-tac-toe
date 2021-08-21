@@ -13,7 +13,7 @@ def clear(): return os.system('clear')
 def display_board(state, clear_terminal=True):
     if clear_terminal:
         clear()
-    print('===Tic-tac-toe===')
+    print('==Tic-tac-toe==')
     for i in range(int(len(state)**0.5)):
         for j in range(int(len(state)**0.5)):
             print(state[i*int(len(state)**0.5)+j], end='')
@@ -41,7 +41,7 @@ def input_location(game_state):
         i+1 for i in range(len(game_state)) if game_state[i] == ' ']
     while True:
         location = input(
-            f'The empty locations are {empty_locations} (right top cornor starts with 1), please choose your next move: ')
+            f'The empty locations are {empty_locations} (top-left corner starts with location 1), please choose your next move: ')
         if location in [str(_) for _ in empty_locations]:
             return int(location)
         else:
@@ -114,12 +114,12 @@ def play(board_size=3):
             two_player_game(game_state=[' ' for _ in range(
                 board_size**2)])
             play_again = False if (input(
-                "Please enter 'exit' to quit, or any other keys to continue playing: ")) == 'exit' else True
+                "Please enter 'exit' to quit, or any other keys to start a new game: ")) == 'exit' else True
         if player == 1:
             one_player_game(game_state=[' ' for _ in range(
                 board_size**2)])
             play_again = False if (input(
-                "Please enter 'exit' to quit, or any other keys to continue playing: ")) == 'exit' else True
+                "Please enter 'exit' to quit, or any other keys to start a new game: ")) == 'exit' else True
 
 
 if __name__ == '__main__':
