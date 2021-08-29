@@ -1,7 +1,7 @@
 import random
 import time
-# import tic_tac_toe
 from utility import is_winner
+
 
 def move_random(game_state, delay=0.5):
     empty_locations = [
@@ -10,7 +10,7 @@ def move_random(game_state, delay=0.5):
     return random.choice(empty_locations)+1
 
 
-def move_evolutionary(game_state, computer_label='O', rounds=1000):
+def move_evolutionary(game_state, computer_label='O', rounds=5000):
     empty_locations = [
         i for i in range(len(game_state)) if game_state[i] == ' ']
     if empty_locations.__len__() == 0:
