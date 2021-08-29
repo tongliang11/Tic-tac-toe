@@ -1,13 +1,14 @@
-import os
-import shutil
-from computer_play import move_random
+# import os
+# import shutil
+import computer_play
+from utility import is_winner
+
+# def print_centre(s):
+#     print(s.center(shutil.get_terminal_size().columns))
 
 
-def print_centre(s):
-    print(s.center(shutil.get_terminal_size().columns))
-
-
-def clear(): return os.system('clear')
+def clear(): print("\033[H\033[J", end="")
+# return os.system('clear')
 
 
 def display_board(state, clear_terminal=True):
@@ -58,50 +59,59 @@ def identity_list(a_list):
         raise Exception('Empty list!')
 
 
-def is_winner(game_state):
-    same_line = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
-                 [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
-    for index_list in same_line:
-        if identity_list([game_state[i] for i in index_list]):
-            if game_state[index_list[0]] != ' ':
-                return game_state[index_list[0]]
-    return None
-
-
 def two_player_game(game_state):
     display_board(game_state)
-    finished = False
-    while not finished:
+    while True:
         for label in ['X', 'O']:
             print(f"Player {label}, it's your turn!")
             location = input_location(game_state)
             game_state[location-1] = label
             display_board(game_state)
-            if is_winner(game_state):
-                print(f'{is_winner(game_state)} wins!')
+
+            if is_winner(game_state) == 'Tie':
+                print("It's a tie!")
+                return
+            elif is_winner(game_state) == 'X':
+                print('X wins!')
                 finished = True
-                break
+                return
+            elif is_winner(game_state) == 'O':
+                print('O wins!')
+                finished = True
+                return
 
 
-def one_player_game(game_state):
+def one_player_game(game_state, computer_policy=computer_play.move_random):
     display_board(game_state)
-    finished = False
-    while not finished:
-        label_player = 'X'
-        label_computer = 'O'
+    label_player = 'X'
+    label_computer = 'O'
+    while True:
         print(f"Player {label_player}, it's your turn!")
         location = input_location(game_state)
         game_state[location-1] = label_player
         display_board(game_state)
-        if is_winner(game_state):
-            print(f'{is_winner(game_state)} wins!')
-            finished = True
-        computer_location = move_random(game_state)
+        if is_winner(game_state) == 'Tie':
+            print("It's a tie!")
+            return
+        elif is_winner(game_state) == 'X':
+            print('X wins!')
+            return
+        elif is_winner(game_state) == 'O':
+            print('O wins!')
+            return
+
+        computer_location = computer_policy(game_state)
         game_state[computer_location-1] = label_computer
         display_board(game_state)
-        if is_winner(game_state):
-            print(f'{is_winner(game_state)} wins!')
-            finished = True
+        if is_winner(game_state) == 'Tie':
+            print("It's a tie!")
+            return
+        elif is_winner(game_state) == 'X':
+            print('X wins!')
+            return
+        elif is_winner(game_state) == 'O':
+            print('O wins!')
+            return
 
 
 def play(board_size=3):
@@ -117,10 +127,10 @@ def play(board_size=3):
                 "Please enter 'exit' to quit, or any other keys to start a new game: ")) == 'exit' else True
         if player == 1:
             one_player_game(game_state=[' ' for _ in range(
-                board_size**2)])
+                board_size**2)], computer_policy=computer_play.move_evolutionary)
             play_again = False if (input(
                 "Please enter 'exit' to quit, or any other keys to start a new game: ")) == 'exit' else True
 
 
 if __name__ == '__main__':
-    play()
+    play(3)
