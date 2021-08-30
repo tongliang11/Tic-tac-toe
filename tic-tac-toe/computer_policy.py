@@ -1,20 +1,22 @@
 import random
 import time
-from utility import is_winner
+from utils import is_winner
 
 
-def move_random(game_state, delay=0.5):
+def move_random(game_state, computer_label='O', delay=0.5):
     empty_locations = [
         i for i in range(len(game_state)) if game_state[i] == ' ']
     time.sleep(delay)  # fake computer thinking delay
     return random.choice(empty_locations)+1
 
 
-def move_evolutionary(game_state, computer_label='O', rounds=5000):
+def move_evolutionary(game_state, computer_label='O', rounds=1000):
     empty_locations = [
         i for i in range(len(game_state)) if game_state[i] == ' ']
     if empty_locations.__len__() == 0:
         return -1
+    elif empty_locations.__len__() == 1:
+        return empty_locations[0] + 1
     else:
         winning_prob = []
         for next_move in empty_locations:
@@ -44,6 +46,10 @@ def _random_self_play(game_state, label_computer1='X'):
 
         if is_winner(game_state):
             return is_winner(game_state)
+
+
+def move_Q_table(game_state):
+    pass
 
 
 if __name__ == '__main__':
