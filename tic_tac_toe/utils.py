@@ -28,18 +28,22 @@ def clear(): print("\033[H\033[J", end="")
 def display_board(game_state, clear_terminal=True):
     if clear_terminal:
         clear()
+    n = int(len(game_state)**0.5)
     print('='*(int(len(game_state)**0.5*1.5)-3)+'Tic-tac-toe'+'='*(int(len(game_state)**0.5*1.5)-3))
-    for i in range(int(len(game_state)**0.5)):
-        for j in range(int(len(game_state)**0.5)):
+    for i in range(n):
+        for j in range(n):
             if j==0:
                 print(end=' ')
-            print(game_state[i*int(len(game_state)**0.5)+j], end='')
-            if j != int(len(game_state)**0.5)-1:
+            if game_state[i*n+j] == ' ':
+                print(i*n+j+1,end='')
+            else:
+                print(game_state[i*n+j], end='')
+            if j != n-1:
                 print(' | ', end='')
             else:
                 print()
-                if i != int(len(game_state)**0.5)-1:
-                    print('---|'*(int(len(game_state)**0.5)-1)+'---')
+                if i != n-1:
+                    print('---|'*(n-1)+'---')
 
 
 def input_play_num():
@@ -58,7 +62,7 @@ def input_location(game_state):
         i+1 for i in range(len(game_state)) if game_state[i] == ' ']
     while True:
         location = input(
-            f'The empty locations are {empty_locations} (top-left corner starts with location 1), please choose your next move: ')
+            f'The empty locations are {empty_locations}, please choose your next move: ')
         if location in [str(_) for _ in empty_locations]:
             return int(location)
         else:
@@ -76,3 +80,7 @@ def input_play_label():
         else:
             print(
                 "Please choose between 'X' and 'O' to be your tic-tac-toe stone, 'X' goes first.")
+
+
+if __name__ == '__main__':
+    display_board([' ']*9)
