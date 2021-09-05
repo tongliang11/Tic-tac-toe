@@ -48,6 +48,23 @@ def _random_self_play(game_state, label_computer1='X'):
             return is_winner(game_state)
 
 
+def move_minimax(game_state, computer_label='O'):
+    empty_locations = [
+        i for i in range(len(game_state)) if game_state[i] == ' ']
+    if empty_locations.__len__() == 0:
+        return -1
+    elif empty_locations.__len__() == 1:
+        return empty_locations[0] + 1
+    else:
+        scores = []
+        for next_move in empty_locations:
+            _game_state = list(game_state)
+            _game_state[next_move] = computer_label
+            if is_winner(_game_state) == computer_label:
+                scores 
+
+
+
 def move_Q_table(game_state):
     pass
 

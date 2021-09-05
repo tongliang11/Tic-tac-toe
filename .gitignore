@@ -1,3 +1,5 @@
 .vscode/
-tic-tac-toe/__pycache__/
+tic_tac_toe/__pycache__/
 .DS_Store
+setup.cfg
+setup.py

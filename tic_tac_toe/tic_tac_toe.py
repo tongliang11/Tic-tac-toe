@@ -120,5 +120,5 @@ class Tic_tac_toe:
 
 
 if __name__ == '__main__':
-    Tic_tac_toe(board_size=4, player_num=0,
+    Tic_tac_toe(board_size=3, player_num=0,
                 policy=computer.move_evolutionary).play()
